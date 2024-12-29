@@ -1,0 +1,352 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"gasEstimates": null,
+		"methodIdentifiers": {
+			"createChannel(bytes,bytes,uint256)": "84295968",
+			"getAfter(uint256,uint256)": "3793243b",
+			"getBefore(uint256,uint256)": "883daad4",
+			"getLatest(uint8)": "b10be739",
+			"getMyChannels()": "ae180328",
+			"getPost(uint256)": "40731c24"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "bytes",
+					"name": "title",
+					"type": "bytes"
+				},
+				{
+					"internalType": "bytes",
+					"name": "description",
+					"type": "bytes"
+				},
+				{
+					"internalType": "uint256",
+					"name": "subscriptionPrice",
+					"type": "uint256"
+				}
+			],
+			"name": "createChannel",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "offset",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "size",
+					"type": "uint256"
+				}
+			],
+			"name": "getAfter",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint256",
+							"name": "globalIndex",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "postIndexInChannel",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint8",
+							"name": "major",
+							"type": "uint8"
+						},
+						{
+							"internalType": "uint8",
+							"name": "minor",
+							"type": "uint8"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timestamp",
+							"type": "uint256"
+						},
+						{
+							"internalType": "bytes",
+							"name": "content",
+							"type": "bytes"
+						},
+						{
+							"internalType": "bytes8",
+							"name": "encoding",
+							"type": "bytes8"
+						},
+						{
+							"internalType": "address",
+							"name": "channelAddress",
+							"type": "address"
+						}
+					],
+					"internalType": "struct Post[]",
+					"name": "",
+					"type": "tuple[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "offset",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "size",
+					"type": "uint256"
+				}
+			],
+			"name": "getBefore",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint256",
+							"name": "globalIndex",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "postIndexInChannel",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint8",
+							"name": "major",
+							"type": "uint8"
+						},
+						{
+							"internalType": "uint8",
+							"name": "minor",
+							"type": "uint8"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timestamp",
+							"type": "uint256"
+						},
+						{
+							"internalType": "bytes",
+							"name": "content",
+							"type": "bytes"
+						},
+						{
+							"internalType": "bytes8",
+							"name": "encoding",
+							"type": "bytes8"
+						},
+						{
+							"internalType": "address",
+							"name": "channelAddress",
+							"type": "address"
+						}
+					],
+					"internalType": "struct Post[]",
+					"name": "",
+					"type": "tuple[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint8",
+					"name": "size",
+					"type": "uint8"
+				}
+			],
+			"name": "getLatest",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint256",
+							"name": "globalIndex",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "postIndexInChannel",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint8",
+							"name": "major",
+							"type": "uint8"
+						},
+						{
+							"internalType": "uint8",
+							"name": "minor",
+							"type": "uint8"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timestamp",
+							"type": "uint256"
+						},
+						{
+							"internalType": "bytes",
+							"name": "content",
+							"type": "bytes"
+						},
+						{
+							"internalType": "bytes8",
+							"name": "encoding",
+							"type": "bytes8"
+						},
+						{
+							"internalType": "address",
+							"name": "channelAddress",
+							"type": "address"
+						}
+					],
+					"internalType": "struct Post[]",
+					"name": "",
+					"type": "tuple[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getMyChannels",
+			"outputs": [
+				{
+					"internalType": "address[]",
+					"name": "",
+					"type": "address[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "postId",
+					"type": "uint256"
+				}
+			],
+			"name": "getPost",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint256",
+							"name": "globalIndex",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "postIndexInChannel",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint8",
+							"name": "major",
+							"type": "uint8"
+						},
+						{
+							"internalType": "uint8",
+							"name": "minor",
+							"type": "uint8"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timestamp",
+							"type": "uint256"
+						},
+						{
+							"internalType": "bytes",
+							"name": "content",
+							"type": "bytes"
+						},
+						{
+							"internalType": "bytes8",
+							"name": "encoding",
+							"type": "bytes8"
+						},
+						{
+							"internalType": "address",
+							"name": "channelAddress",
+							"type": "address"
+						}
+					],
+					"internalType": "struct Post",
+					"name": "",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		}
+	]
+}

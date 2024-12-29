@@ -1,0 +1,609 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_storage",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes",
+						"name": "_title",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes",
+						"name": "_description",
+						"type": "bytes"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "channelAddress",
+						"type": "address"
+					}
+				],
+				"name": "channelUpdated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "channelAddress",
+						"type": "address"
+					}
+				],
+				"name": "donated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "globalId",
+						"type": "uint256"
+					}
+				],
+				"name": "postCreated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "channelAddress",
+						"type": "address"
+					}
+				],
+				"name": "subscribed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "channelAddress",
+						"type": "address"
+					}
+				],
+				"name": "withdrawn",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes",
+						"name": "content",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes8",
+						"name": "encoding",
+						"type": "bytes8"
+					}
+				],
+				"name": "createPost",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "donate",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "offset",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "size",
+						"type": "uint256"
+					}
+				],
+				"name": "getAfter",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "globalIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "postIndexInChannel",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint8",
+								"name": "major",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "minor",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes",
+								"name": "content",
+								"type": "bytes"
+							},
+							{
+								"internalType": "bytes8",
+								"name": "encoding",
+								"type": "bytes8"
+							},
+							{
+								"internalType": "address",
+								"name": "channelAddress",
+								"type": "address"
+							}
+						],
+						"internalType": "struct Post[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "offset",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "size",
+						"type": "uint256"
+					}
+				],
+				"name": "getBefore",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "globalIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "postIndexInChannel",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint8",
+								"name": "major",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "minor",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes",
+								"name": "content",
+								"type": "bytes"
+							},
+							{
+								"internalType": "bytes8",
+								"name": "encoding",
+								"type": "bytes8"
+							},
+							{
+								"internalType": "address",
+								"name": "channelAddress",
+								"type": "address"
+							}
+						],
+						"internalType": "struct Post[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getInfo",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "bytes",
+								"name": "description",
+								"type": "bytes"
+							},
+							{
+								"internalType": "bytes",
+								"name": "title",
+								"type": "bytes"
+							},
+							{
+								"internalType": "address",
+								"name": "channelAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "subscriptionPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "enum Role",
+								"name": "myRole",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct Channel",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "size",
+						"type": "uint8"
+					}
+				],
+				"name": "getLatest",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "globalIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "postIndexInChannel",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint8",
+								"name": "major",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "minor",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes",
+								"name": "content",
+								"type": "bytes"
+							},
+							{
+								"internalType": "bytes8",
+								"name": "encoding",
+								"type": "bytes8"
+							},
+							{
+								"internalType": "address",
+								"name": "channelAddress",
+								"type": "address"
+							}
+						],
+						"internalType": "struct Post[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "postId",
+						"type": "uint256"
+					}
+				],
+				"name": "getPost",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "globalIndex",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "postIndexInChannel",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint8",
+								"name": "major",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "minor",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bytes",
+								"name": "content",
+								"type": "bytes"
+							},
+							{
+								"internalType": "bytes8",
+								"name": "encoding",
+								"type": "bytes8"
+							},
+							{
+								"internalType": "address",
+								"name": "channelAddress",
+								"type": "address"
+							}
+						],
+						"internalType": "struct Post",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPublishers",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getSubscribers",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "enum Role",
+						"name": "role",
+						"type": "uint8"
+					}
+				],
+				"name": "setRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "subscribe",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes",
+						"name": "_title",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes",
+						"name": "_description",
+						"type": "bytes"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_subscriptionPrice",
+						"type": "uint256"
+					}
+				],
+				"name": "updateInfo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/BulletChannel.sol": "BulletChannel"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/BulletChannel.sol": {
+			"keccak256": "0x864b9336dc86329537e54f382f0b3619fc61e0ef9fb45b07fcca23824a25036a",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://f1b4e3682f980603547e29dbd1b90ecf841f7147ca9cc22f3b6d421574037de0",
+				"dweb:/ipfs/QmaNcSXAMvUXGCmZw88a3Qt7jwWqqfirHtUcxGCk8Wd7zF"
+			]
+		},
+		"contracts/Channel.sol": {
+			"keccak256": "0x3a5fc0130450f2f44e050c1c1a55fbc343e28a602fa954448214c9208df7f34b",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://c4f26ebf05c44e7d6fdf2acd2cb9a8f6313e5fc74df57f6b2c76a5f67a148d5e",
+				"dweb:/ipfs/QmandEcR7rWSRqPF4ejRDgY81AkrrZsDQJAyXzGX3fjQvH"
+			]
+		},
+		"contracts/IBulletChannel.sol": {
+			"keccak256": "0x9762dd820e33e9a89a8d43ab298bf317b8cb0c7a7a2189e91ab9bd8e0b70f26d",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://5c4e18dce0e11d40bd57ff02895a7b1295521bf4559478aafefca2cfd05f637e",
+				"dweb:/ipfs/QmXVQCSmfN1jit6zk27ZwowKoXtiRfZCYSdS8fHaSHuKbY"
+			]
+		},
+		"contracts/IGetPosts.sol": {
+			"keccak256": "0x7a27683c571dee39e5c0025d5e117a9f8f50434cc8aa12af17cb026c1537d182",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://87774707994bcc967a85c0d4eaaa64940df45f89db14221391d596c2ccae00c1",
+				"dweb:/ipfs/Qma2NGTcjydzUbED7t4YwravGcikb3wU2eWjQYgUWjMQAT"
+			]
+		},
+		"contracts/IStorage.sol": {
+			"keccak256": "0xf8b9e63c9b10d74325738a1a8191e46c02c9a3ed4af40026ef6d209d15394582",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://902a04fcd9fb24fded0269ebc12d285c92027f4e450e731953f8f0ecde4761ae",
+				"dweb:/ipfs/QmNcV1iE4B3Lp99xgBxef869bfEKiByqjr8BKCpy8uDhcL"
+			]
+		},
+		"contracts/Post.sol": {
+			"keccak256": "0x3d6694c16019973894c216ef9a6112d8488fe44be9d70c0e6f342f132df910b9",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://11ff0ea5c51fa4127bcbfdb021f1d9a6091b2b1f5c24cf53513e5545dddc873d",
+				"dweb:/ipfs/QmZMmdRzy8r2yobG51d2YDYjaKmBftaS3e19FvV7Dr4ETQ"
+			]
+		},
+		"contracts/Role.sol": {
+			"keccak256": "0x558167e3f45db8c715d04de00643ed0e8d2665be943d1e06faf1e1ada69d2317",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://281e33e95f55b13b98962f53b5c8d739d9b82698eb0cd39986ec74768a0bf044",
+				"dweb:/ipfs/QmZ5DhWfqJQmfaHZpdEwwhqaMgy136xoe8xeWyoBYhys2J"
+			]
+		}
+	},
+	"version": 1
+}
