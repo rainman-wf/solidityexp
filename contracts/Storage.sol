@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.9 <0.9.0;
 
-import { IStorage } from "contracts/IStorage.sol";
-import { Post } from "contracts/Post.sol";
-import { Role } from "contracts/Role.sol";
-import { Bullet } from "contracts/Bullet.sol";
-import "hardhat/console.sol";
+import { IStorage } from "contracts/interfaces/IStorage.sol";
+import { Post } from "contracts/structs/Post.sol";
+import { Role } from "contracts/structs/Role.sol";
+import { Bullet } from "./Bullet.sol";
 
 contract Storage is IStorage {
 
@@ -20,6 +19,8 @@ contract Storage is IStorage {
         _;
     }
 
+    mapping (bytes => uint256[]) hashtags;
+
     event bulletCreated(address indexed bulletAddress);
 
     constructor() {
@@ -30,15 +31,31 @@ contract Storage is IStorage {
     }
 
     function savePost(
-        bytes memory _content, 
+        bytes16 uuid,
+        bytes memory _content,
+        address author, 
         address _channelAddress, 
         bytes8 _encoding, 
-        uint256 indexInChannel
+        uint256 indexInChannel,
+        bytes[] memory _hashtags
         ) isTrusted external returns (uint256) {
 
-        Post memory post = Post(posts.length, indexInChannel, 1, 0, block.timestamp, _content, _encoding, _channelAddress);
+        uint256 id = posts.length;
+
+        for (uint256 i = 0; i < _hashtags.length; i++) hashtags[_hashtags[i]].push(id);
+    
+        Post memory post = Post(uuid, posts.length, indexInChannel, 1, 0, block.timestamp, _content, _encoding, _channelAddress, author);
         posts.push(post);
-        return posts.length - 1; 
+        return id; 
+    }
+
+    function getPostsByHashtag(bytes memory hashtag) external view returns (Post[] memory) {
+        uint256[] memory ids = hashtags[hashtag];
+        Post[] memory result = new Post[](ids.length);
+        for (uint256 i = 0; i < ids.length; i++) {
+            result[i] = posts[ids[i]];
+        }
+        return result;
     }
 
     function getPost(uint256 postId) isTrusted external view returns (Post memory) {
@@ -61,17 +78,17 @@ contract Storage is IStorage {
         return address(this);
     }
 
-    function getPosts(uint256[] memory indexes) isTrusted external view  returns (Post[] memory _posts) {
-        for (uint256 i = 0; i < indexes.length; i++) {
-            _posts[i] = posts[indexes[i]];
-        }   
+    function getPosts(uint256[] memory indexes) isTrusted external view  returns (Post[] memory) {
+        Post[] memory result = new Post[](indexes.length);
+        for (uint256 i = 0; i < indexes.length; i++) result[i] = posts[indexes[i]];
+        return result;
     }
 
     function getLatest(uint8 size) isTrusted external view returns (Post[] memory) {
         if (posts.length <= size) return posts;
         uint256 oldest = posts.length - size;
         Post[] memory result = new Post[](size);
-        for (uint256 i = oldest; i <= posts.length - 1; i++)  result[i - oldest] = posts[i];
+        for (uint256 i = oldest; i <= posts.length - 1; i++) result[i - oldest] = posts[i];
         return result;
     }
 

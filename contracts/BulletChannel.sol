@@ -1,76 +1,82 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.9 <0.9.0;
 
-import { IBulletChannel } from "contracts/IBulletChannel.sol";
-import { Role } from "contracts/Role.sol";
-import { Channel } from "contracts/Channel.sol";
-import { Post } from "contracts/Post.sol";
-import { IStorage } from "contracts/IStorage.sol";
+import { IBulletChannel } from "contracts/interfaces/IBulletChannel.sol";
+import { Role } from "contracts/structs/Role.sol";
+import { Channel } from "contracts/structs/Channel.sol";
+import { Post } from "contracts/structs/Post.sol";
+import { IStorage } from "contracts/interfaces/IStorage.sol";
 
 contract BulletChannel is IBulletChannel {
 
-    address owner;
     IStorage bulletStorage;
+
+    address owner;
     bytes title;
     bytes description;
     uint256 subscriptionPrice;
+    bytes16 uuid;
 
-    address[] subscribers;
-    address[] publishers;
-
-    mapping(address => Role) roles;
+    uint256 createdAt;
 
     uint256[] indexes;
     
+    mapping (address => Role) roles;
+
     event postCreated(uint256 indexed globalId);
     event subscribed(address indexed channelAddress);
     event donated(address indexed channelAddress);
     event withdrawn(address indexed channelAddress);
     event channelUpdated(address indexed channelAddress);
 
-    modifier onlyOwner() {
-        require (msg.sender == owner, "No access rights");
+    modifier isOwner() {
+        require (msg.sender == owner, "No access rights: Only owner can call this function");
         _;
     } 
 
-    modifier hasReaderRights () {
-        require(subscriptionPrice == 0 || (subscriptionPrice > 0 && roles[msg.sender] != Role.NONE), "No access rights");
+    modifier isReader () {
+        require(subscriptionPrice == 0 || (subscriptionPrice > 0 && roles[msg.sender] != Role.NONE), "No access rights: Only owner/publisher/subsriber can call this function");
         _;
     }
 
-      modifier hasPubliserhRights () {
-        require(roles[msg.sender] == Role.OWNER || roles[msg.sender]  == Role.PUBLISHER, "No access rights");
+    modifier isPublisher () {
+        require(msg.sender == owner || roles[msg.sender] == Role.PUBLISHER, "No access rights: Only publisher/owner can call this function");
         _;
     }
 
-    constructor(address _storage, bytes memory _title, bytes memory _description, uint256 _price, address _owner) {
+    constructor(bytes16 _uuid, address _storage, bytes memory _title, bytes memory _description, uint256 _price, address _owner) {
+        uuid = _uuid;
         bulletStorage = IStorage(_storage);
         title = _title;
         description = _description;
         subscriptionPrice = _price;
         owner = _owner;
+        createdAt = block.timestamp;
     }
 
-    function createPost(bytes memory content, bytes8 encoding) hasPubliserhRights external {
-        uint256 globalId = bulletStorage.savePost(content, address(this), encoding, getNewIndex());    
+    function getPostsByHashtag(bytes memory hashtag) external view returns (Post[] memory) {
+        return bulletStorage.getPostsByHashtag(hashtag);
+    }
+
+    function createPost(bytes16 _uuid, bytes memory content, bytes8 encoding, bytes[] memory hashtags) isPublisher external {
+        uint256 globalId = bulletStorage.savePost(_uuid, content, msg.sender, address(this), encoding, indexes.length, hashtags);    
         indexes.push(globalId);
         emit postCreated(globalId);
     }
 
-    function getNewIndex() private view returns (uint256) {
-        return indexes.length;
-    }
-
-    function setRole(address user, Role role) onlyOwner external {
-        if (role == Role.OWNER) owner = user;
-        else roles[user] = role;
+    function setRole(address user, Role role) isOwner external {
+        if (role == Role.OWNER) {
+            owner = user;
+            roles[msg.sender] = Role.PUBLISHER;
+        } else roles[user] = role;
+        bulletStorage.addChannelToUser(address(this), user);
     }
 
     function subscribe() external payable {
         require(roles[msg.sender] == Role.NONE, "You already have role subscriber or hier");
         require(msg.value >= subscriptionPrice, "Value is too low");
-        subscribers.push(msg.sender);
         roles[msg.sender] = Role.SUBSCRIBER;
+        bulletStorage.addChannelToUser(address(this), msg.sender);
         emit subscribed(address(this));
     }
 
@@ -78,7 +84,7 @@ contract BulletChannel is IBulletChannel {
         emit donated(address(this));
     }
 
-    function withdraw(uint256 value) onlyOwner external {
+    function withdraw(uint256 value) isOwner external {
         (bool ok, ) = msg.sender.call{ value: value }("");
         require(ok, "Transfer failed");
     }
@@ -87,7 +93,7 @@ contract BulletChannel is IBulletChannel {
         Role role;
         if (msg.sender == owner) role = Role.OWNER; 
         else role = roles[msg.sender];
-        return Channel(title, description, address(this), subscriptionPrice, role);
+        return Channel(uuid, title, description, address(this), subscriptionPrice, createdAt, role, indexes.length);
     }
     
     function updateInfo(bytes memory _title, bytes memory _description, uint256 _subscriptionPrice) external {
@@ -103,17 +109,10 @@ contract BulletChannel is IBulletChannel {
         emit channelUpdated(address(this));
     }
 
-    function getBalance() onlyOwner external view returns (uint256) {
+    function getBalance() isOwner external view returns (uint256) {
         return address(this).balance;
     }
     
-    function getSubscribers() onlyOwner external view returns (address[] memory) {
-        return subscribers;
-    }
-    function getPublishers() onlyOwner external view returns (address[] memory) {
-        return publishers;
-    }
-
     function getPost(uint256 postId) external view returns (Post memory) {
         uint256 globalId = indexes[postId];
         return bulletStorage.getPost(globalId);
@@ -121,10 +120,10 @@ contract BulletChannel is IBulletChannel {
 
     function getLatest(uint8 size) external view returns (Post[] memory) {
         if (indexes.length == 0) return new Post[](0);
-        uint256 resultSize = size > indexes.length ? indexes.length : size;
-        uint256[] memory resultIndexes = new uint256[](resultSize);
+        if (size >= indexes.length) return bulletStorage.getPosts(indexes);
         uint256 oldest = indexes.length - size;
-        for (uint256 i = oldest; i <= resultSize - 1; i++)  resultIndexes[i - oldest] = indexes[i];
+        uint256[] memory resultIndexes = new uint256[](size);
+        for (uint256 i = oldest; i <= indexes.length - 1; i++)  resultIndexes[i - oldest] = indexes[i];
         return bulletStorage.getPosts(resultIndexes);
     }
 

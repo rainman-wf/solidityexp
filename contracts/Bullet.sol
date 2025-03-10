@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.9 <0.9.0;
 
-import { IBullet } from "contracts/IBullet.sol";
-import { IGetPosts } from "contracts/IGetPosts.sol";
-import { Post } from "contracts/Post.sol";
-import { IStorage } from "contracts/IStorage.sol";
-import { BulletChannel } from "contracts/BulletChannel.sol";
-import { Channel } from "contracts/Channel.sol";
-import { IBulletChannel } from "contracts/IBulletChannel.sol";
+import { IBullet } from "contracts/interfaces/IBullet.sol";
+import { IGetPosts } from "contracts/interfaces/IGetPosts.sol";
+import { Post } from "contracts/structs/Post.sol";
+import { IStorage } from "contracts/interfaces/IStorage.sol";
+import { BulletChannel } from "./BulletChannel.sol";
+import { Channel } from "contracts/structs/Channel.sol";
+import { IBulletChannel } from "contracts/interfaces/IBulletChannel.sol";
 
 contract Bullet is IBullet {
 
@@ -20,6 +20,7 @@ contract Bullet is IBullet {
     event channelCreated(address indexed channelAddress);
 
     function createChannel(
+        bytes16 uuid,
         bytes memory title,
         bytes memory description,
         uint256 subscriptionPrice
@@ -27,6 +28,7 @@ contract Bullet is IBullet {
         
         address newBulletAddress = address(
             new BulletChannel(
+                uuid,
                 _storage.getAddress(),
                 title, 
                 description, 
@@ -37,6 +39,10 @@ contract Bullet is IBullet {
         _storage.setTrusted(newBulletAddress);
         _storage.addChannelToUser(newBulletAddress, msg.sender);
         emit channelCreated(newBulletAddress);
+    }
+
+    function getPostsByHashtag(bytes memory hashtag) external view returns (Post[] memory) {    
+        return _storage.getPostsByHashtag(hashtag);
     }
 
     function getMyChannels() external view returns (address[] memory) {
